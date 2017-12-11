@@ -1,31 +1,31 @@
 import os
-from flask import Flask, url_for
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
-@app.route("/hello")
-def hello():
-    #for Cloud9 only, this is for step tracing.
-    #import pdb; pdb.set_trace()
-    
-    return "Hello World!"
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        return 'Username is: {}'.format(request.values['username'])
+    else:
+        return '''<form method="post" action="/login">
+            <input type="text" name="username" />
+            <input type="password" name="password" />
+            <p>
+            <button type="submit">Submit</button>
+            </form>
+            '''
+    pass
+@app.route('/hello')
+@app.route('/hello/<name>')
+def hello(name=None):
+    return render_template('hello.html', name=name)
 
-@app.route("/")
+@app.route('/')
 def index():
-    #return "Index Page"
-    return url_for('show_user_profile', username='Leon')
+    return render_template('hello.html')
 
 
-@app.route("/username/<username>")
-def show_user_profile(username):
-    return "Hello {}".format(username)
-    
-    
-@app.route("/post/<int:post_id>")
-def show_post(post_id):
-    return "Post {}".format(post_id)
-    
-    
 if __name__ == "__main__":
     host = os.getenv('IP', '0.0.0.0')
     port = int(os.getenv('PORT', 5000))
