@@ -1,20 +1,13 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Welcome Page</title>
-    </head>
-    <body>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul class="flashes">
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
+{% extends "login_base.html" %}
+<head>
+{% block head %}
+{{ super() }}
+<script type="text/javascript" src="">var x = 1;</script>
+{% endblock %}
+</head>
+{% block title %}Welcome Page{% endblock %}
+{% block content %}
         <p>
-            Welcome {{ username }}!
+            Welcome {{ username }}! - <a href="{{ url_for('logout') }}">logout</a>
         </p>
-    </body>
-</html>
+{% endblock %}
