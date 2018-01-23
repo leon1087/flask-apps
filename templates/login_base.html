@@ -7,6 +7,9 @@
     </head>
     <body>
         <h1>Welcome to the login page!</h1>
+        <div id="logo">
+            <img src="{{ url_for('static', filename='download.jpg') }}" alt="Acme Corp." height="150px" />
+        </div>
 
         {% with messages = get_flashed_messages() %}
         {% if messages %}
