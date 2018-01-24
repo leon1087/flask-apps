@@ -2,6 +2,7 @@ import os
 import logging
 from logging.handlers import RotatingFileHandler
 from flask import Flask, request, render_template, redirect, url_for, flash, session
+import pymysql
 
 app = Flask(__name__)
 
@@ -10,7 +11,8 @@ def login():
     error = None
     if request.method == 'POST':
         #return "User {} logged in".format(request.form['username'])
-        valid = True if request.form['username'] == request.form['password'] else False
+        #valid = True if request.form['username'] == request.form['password'] else False
+        valid = valid_login(request.form['username'], request.form['password'])
         print(valid)
         if valid:
             flash("Successfully Logged in.")
@@ -28,6 +30,28 @@ def login():
 def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
+    
+def valid_login(username, password):
+    #mysql
+    MYSQL_DATABASE_HOST= os.getenv('IP', '0.0.0.0')
+    MYSQL_DATABASE_USER = 'hehemama00'
+    MYSQL_DATABASE_PASSWORD = ''
+    MYSQL_DATABASE_DB = 'my_flask_app'
+    conn = pymysql.connect(host = MYSQL_DATABASE_HOST,
+    user = MYSQL_DATABASE_USER,
+    password = MYSQL_DATABASE_PASSWORD,
+    db = MYSQL_DATABASE_DB
+        )
+        
+    cursor = conn.cursor()
+    cursor.execute("select * from user where username='{}' and password='{}'"\
+    .format(username, password))
+    data = cursor.fetchone()
+        
+    if data:
+        return True
+    else:
+        return False
         
 @app.route('/')
 def welcome():

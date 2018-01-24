@@ -1,0 +1,22 @@
+start mysql:
+
+mysql-ctl start
+
+go into the mysql command line:
+
+mysql-ctl cli
+
+show databases:
+show databases;
+
+create database:
+CREATE DATABASE XXXX;
+
+go into the databse:
+user XXXXX;
+
+create table:
+create table user(userid INT not null auto_increment, username VARCHAR(64) not null, password VARCHAR(64) not null, primary KEY(userid));
+
+insert values:
+insert into user  values('', 'leon', 'wangjq10');
